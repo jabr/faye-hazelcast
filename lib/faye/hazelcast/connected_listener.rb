@@ -5,6 +5,7 @@ class Faye::Hazelcast::ConnectedListener
     @engine = engine
   end
 
+  # Destory a client when it is evicted (due to a timeout)
   def entryEvicted(event)
     @engine.destroy_client(event.key)
   end
