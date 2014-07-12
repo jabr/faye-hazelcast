@@ -2,6 +2,10 @@ require 'faye'
 
 $CLASSPATH << File.expand_path('../../../vendor/hazelcast-3.2.1.jar', __FILE__)
 
+module Faye
+  class Hazelcast; end
+end
+
 require 'faye/hazelcast/connected_listener'
 require 'faye/hazelcast/events_listener'
 
@@ -18,6 +22,9 @@ class Faye::Hazelcast
   def initialize(server, options)
     @server, @options = server, options
     config = com.hazelcast.config.Config.new
+    options.fetch(:hazelcast, {}).each do |key, value|
+      config.setProperty(key, value)
+    end
     @hazel = com.hazelcast.core.Hazelcast.newHazelcastInstance(config)
     at_exit { @hazel.shutdown }
 

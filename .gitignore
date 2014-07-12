@@ -1,3 +1,4 @@
 Gemfile.lock
 .irbrc
 .pryrc
+.rspec
